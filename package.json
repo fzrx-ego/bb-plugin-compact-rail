@@ -1,0 +1,36 @@
+{
+  "name": "bb-plugin-compact-rail",
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "bb": ">=0.46",
+    "bbPluginSdk": ">=0.6.37"
+  },
+  "bb": {
+    "name": "Compact Rail",
+    "description": "Make more room on a small desktop screen with a 40 px navigation rail and frame gutters at 60% of their default size.",
+    "branding": {
+      "icon": "./assets/icon.svg"
+    },
+    "server": "./server.ts",
+    "skills": [],
+    "themes": [
+      {
+        "id": "compact-rail",
+        "name": "Compact Rail",
+        "description": "Compact desktop navigation and reduced frame gutters with default BB colors.",
+        "css": "./themes/compact-rail.css"
+      }
+    ]
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@get-bb/plugin-sdk": "0.6.37",
+    "typescript": "^5.7.0",
+    "@types/node": "^22.0.0"
+  },
+  "scripts": {
+    "build": "bb plugin build",
+    "typecheck": "tsc --noEmit"
+  }
+}
