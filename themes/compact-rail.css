@@ -1,22 +1,14 @@
-/* Compact desktop navigation rail. Keep default colors and control sizes. */
+/* Compact desktop navigation rail. Keep default colors and control sizes.
+   BB derives the rail, the sidebar body offset and the footer column from
+   --bb-sidebar-rail-padding, so shrinking it keeps all three aligned. */
 @media (min-width: 768px) and (pointer: fine) {
-  [data-testid="app-nav-rail"] {
-    width: calc(var(--bb-sidebar-control-size) + 12px);
+  :root {
+    --bb-sidebar-rail-padding: 6px;
   }
 
   [data-testid="app-nav-rail"] nav,
   [data-testid="app-nav-rail"] nav > div {
     gap: 6px;
-  }
-
-  [data-sidebar="gap"],
-  [data-sidebar="panel"] {
-    --sidebar-rail-width: calc(var(--bb-sidebar-control-size) + 12px + env(safe-area-inset-left) + 1px) !important;
-  }
-
-  [data-sidebar="panel"]:has([data-testid="app-nav-rail"]) [data-sidebar="collapsible-body"] > div {
-    /* Follow the flex container as its resize handle moves. */
-    width: 100% !important;
   }
 }
 
