@@ -1,6 +1,6 @@
 {
   "name": "bb-plugin-compact-rail",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "engines": {
     "bb": ">=0.46",
@@ -23,11 +23,13 @@
       }
     ]
   },
-  "dependencies": {},
   "devDependencies": {
     "@get-bb/plugin-sdk": "0.6.37",
-    "typescript": "^5.7.0",
-    "@types/node": "^22.0.0"
+    "@types/better-sqlite3": "7.6.13",
+    "@types/node": "^22.0.0",
+    "@types/react": "19.3.0",
+    "hono": "4.13.13",
+    "typescript": "^5.7.0"
   },
   "scripts": {
     "build": "bb plugin build",

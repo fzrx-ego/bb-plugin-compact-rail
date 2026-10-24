@@ -16,6 +16,21 @@
 @media (min-width: 768px) and (pointer: fine) {
   [data-testid="app-layout-root"][data-framed] {
     --bb-window-frame-lip: 0.45rem;
+
+    /* Match File Tree's rounded-xl without changing control radii. */
+    --bb-frame-card-radius: calc(var(--radius) + 4px);
+
+    /* BB's title-bar mask also rounds the card. Use the same live radius
+       for its top corners; the host clip-path handles the bottom corners. */
+    --bb-window-card-mask:
+      linear-gradient(#000 0 var(--bb-window-title-bar-height), transparent 0),
+      linear-gradient(to right, transparent var(--bb-frame-card-radius), #000 0 calc(100% - var(--bb-frame-card-radius)), transparent 0),
+      linear-gradient(transparent calc(var(--bb-window-title-bar-height) + var(--bb-frame-card-radius)), #000 0),
+      radial-gradient(circle at var(--bb-frame-card-radius) calc(var(--bb-window-title-bar-height) + var(--bb-frame-card-radius)), #000 calc(var(--bb-frame-card-radius) - 0.5px), transparent var(--bb-frame-card-radius)),
+      radial-gradient(circle at calc(100% - var(--bb-frame-card-radius)) calc(var(--bb-window-title-bar-height) + var(--bb-frame-card-radius)), #000 calc(var(--bb-frame-card-radius) - 0.5px), transparent var(--bb-frame-card-radius));
+    --bb-window-card-mask-square-left:
+      linear-gradient(to right, #000 var(--bb-frame-card-radius), transparent 0),
+      var(--bb-window-card-mask);
   }
 
   /* The file-tree portal also keeps frame sizes in React inline styles. */
