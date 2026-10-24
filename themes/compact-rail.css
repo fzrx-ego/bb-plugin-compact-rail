@@ -20,17 +20,40 @@
     /* Match File Tree's rounded-xl without changing control radii. */
     --bb-frame-card-radius: calc(var(--radius) + 4px);
 
-    /* BB's title-bar mask also rounds the card. Use the same live radius
-       for its top corners; the host clip-path handles the bottom corners. */
-    --bb-window-card-mask:
-      linear-gradient(#000 0 var(--bb-window-title-bar-height), transparent 0),
-      linear-gradient(to right, transparent var(--bb-frame-card-radius), #000 0 calc(100% - var(--bb-frame-card-radius)), transparent 0),
-      linear-gradient(transparent calc(var(--bb-window-title-bar-height) + var(--bb-frame-card-radius)), #000 0),
-      radial-gradient(circle at var(--bb-frame-card-radius) calc(var(--bb-window-title-bar-height) + var(--bb-frame-card-radius)), #000 calc(var(--bb-frame-card-radius) - 0.5px), transparent var(--bb-frame-card-radius)),
-      radial-gradient(circle at calc(100% - var(--bb-frame-card-radius)) calc(var(--bb-window-title-bar-height) + var(--bb-frame-card-radius)), #000 calc(var(--bb-frame-card-radius) - 0.5px), transparent var(--bb-frame-card-radius));
-    --bb-window-card-mask-square-left:
-      linear-gradient(to right, #000 var(--bb-frame-card-radius), transparent 0),
-      var(--bb-window-card-mask);
+  }
+
+  /* Keep BB's native rounded border intact. Masking the whole frame clips
+     its antialiased stroke, and square child backgrounds can cover it. */
+  [data-testid="app-layout-root"][data-framed] main[data-sidebar="inset"] {
+    mask: none;
+    clip-path: none;
+  }
+
+  [data-testid="app-layout-root"][data-framed] main[data-sidebar="inset"]::before {
+    border-color: var(--border-seam);
+  }
+
+  /* Clip content to the inside of the 1px border, retaining the title bar
+     above it. Both arcs share the native border's center. */
+  [data-testid="app-layout-root"][data-framed] main[data-sidebar="inset"] > * {
+    --bb-compact-rail-inner-radius: calc(var(--bb-frame-card-radius) - 1px);
+    --bb-compact-rail-inner-top: calc(var(--bb-window-title-bar-height) + 1px);
+    --bb-compact-rail-left-radius: var(--bb-compact-rail-inner-radius);
+    --bb-compact-rail-left-mask: linear-gradient(transparent, transparent);
+    mask:
+      var(--bb-compact-rail-left-mask),
+      linear-gradient(#000 0 0) top / 100% var(--bb-window-title-bar-height) no-repeat,
+      linear-gradient(#000 0 0) center bottom / calc(100% - var(--bb-compact-rail-inner-radius) * 2) calc(100% - var(--bb-compact-rail-inner-top)) no-repeat,
+      linear-gradient(#000 0 0) center bottom / 100% calc(100% - var(--bb-compact-rail-inner-top) - var(--bb-compact-rail-inner-radius)) no-repeat,
+      radial-gradient(circle at var(--bb-compact-rail-inner-radius) calc(var(--bb-compact-rail-inner-top) + var(--bb-compact-rail-inner-radius)), #000 calc(var(--bb-compact-rail-inner-radius) - 0.5px), transparent var(--bb-compact-rail-inner-radius)),
+      radial-gradient(circle at calc(100% - var(--bb-compact-rail-inner-radius)) calc(var(--bb-compact-rail-inner-top) + var(--bb-compact-rail-inner-radius)), #000 calc(var(--bb-compact-rail-inner-radius) - 0.5px), transparent var(--bb-compact-rail-inner-radius));
+    clip-path: inset(0 round 0 0 var(--bb-compact-rail-inner-radius) var(--bb-compact-rail-left-radius));
+  }
+
+  /* BB keeps the left edge square while the sidebar adjoins the card. */
+  [data-testid="app-layout-root"][data-framed] main[data-sidebar="inset"][class*="--bb-window-card-mask-square-left"] > * {
+    --bb-compact-rail-left-radius: 0px;
+    --bb-compact-rail-left-mask: linear-gradient(#000 0 0) left bottom / var(--bb-compact-rail-inner-radius) calc(100% - var(--bb-compact-rail-inner-top)) no-repeat;
   }
 
   /* The file-tree portal also keeps frame sizes in React inline styles. */
