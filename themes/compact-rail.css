@@ -10,6 +10,27 @@
   [data-testid="app-nav-rail"] nav > div {
     gap: 6px;
   }
+
+  /* With Chat Sidebar the thread list has its own new-chat button beside search. */
+  :root:has(.chat-sidebar) [data-testid="app-sidebar-top-reserve-row"] [data-sidebar-header-slot]:has([data-bb-plugin="navigation"]) {
+    display: none;
+  }
+
+  /* Desktop history controls live in the title bar, so with Chat Sidebar the row
+     is empty: reclaim it. Keep the browser's history controls and other plugins' headers. */
+  :root:has(.chat-sidebar) [data-testid="app-layout-root"][data-framed] [data-testid="app-sidebar-top-reserve-row"]:has([data-sidebar-header-slot] [data-bb-plugin="navigation"]) {
+    display: none;
+  }
+
+  /* Match File Tree's mt-2 inset above its search field. */
+  [data-testid="app-layout-root"][data-framed] .chat-sidebar > div > .sticky:has(input) {
+    padding-top: 0.5rem;
+  }
+
+  /* Office Studio is also available in the side panel's add-tab menu. */
+  [data-thread-header-workflow-actions] [data-bb-plugin="office-viewer"] > [role="group"][aria-label="Office Studio"] {
+    display: none;
+  }
 }
 
 /* Desktop frame gutters: 60% of the default 0.75rem. */
